@@ -1,0 +1,26 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t doc20az/react-client-test -f ./client/Dockerfile.dev ./client
+
+# run test on our react app
+script:
+  - docker run -e CI=true doc20az/react-client-test npm test
+
+# after successful test ... building production images and push it to docker-hub 
+after_success:  
+  - docker build -t doc20az/multi-client ./client
+  - docker build -t doc20az/multi-nginx ./nginx
+  - docker build -t doc20az/multi-server ./server
+  - docker build -t doc20az/multi-worker ./worker
+  # in order to push your images to docker hub ... you have to login 
+  # to yr account throw docker-cli
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+  #push the images to docker hub
+  - docker push doc20az/multi-client
+  - docker push doc20az/multi-nginx
+  - docker push doc20az/multi-server
+  - docker push doc20az/multi-worker
