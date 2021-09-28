@@ -1,51 +1,31 @@
 version: '3'
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
-  redis:
-    image: 'redis:latest'
-  nginx_proxy:
-    restart: always
-    depends_on:
-      - client
-      - backend
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./nginx
-    ports:
-      - '8090:80'
-  backend:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
   client:
-    stdin_open: true
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
-  worker:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
+    image: "doc20az/multi-client"
+    mem_limit: 128m
+    hostname: client
+  backend:
+    image: "doc20az/multi-server"
+    mem_limit: 128m
+    hostname: backend
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  worker:
+    image: "doc20az/multi-worker"
+    mem_limit: 128m
+    hostname: worker
+    environment: 
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+  nginx_proxy:
+    image: "doc20az/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx_proxy
+    ports:
+      - "8090:80"

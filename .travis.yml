@@ -24,3 +24,17 @@ after_success:
   - docker push doc20az/multi-nginx
   - docker push doc20az/multi-server
   - docker push doc20az/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "multi-containerized-app"
+  env: "Multicontainerizedapp-env"
+  bucket_name: "elasticbeanstalk-us-east-2-712504446150"
+  bucket_path: "multi-containerized-app"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+
+
