@@ -29,7 +29,7 @@ services:
       - PGUSER=postgres
       - PGHOST=postgres
       - PGDATABASE=fibvalues
-      - PGPASSWORD=postgres_password
+      - PGPASSWORD=postgrespassword
       - PGPORT=5432
   client:
     stdin_open: true
