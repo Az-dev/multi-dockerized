@@ -28,13 +28,13 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "multi-containerized-app"
-  env: "Multicontainerizedapp-env"
-  bucket_name: "elasticbeanstalk-us-east-2-712504446150"
-  bucket_path: "multi-containerized-app"
+  region: 'us-east-2'
+  app: 'multi-containerized-app'
+  env: 'Multicontainerizedapp-env'
+  bucket_name: 'elasticbeanstalk-us-east-2-712504446150'
+  bucket_path: 'multi-containerized-app'
   on:
-    branch: master
+    branch: main
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
 

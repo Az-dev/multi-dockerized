@@ -28,4 +28,4 @@ services:
     mem_limit: 128m
     hostname: nginxproxy
     ports:
-      - "8090:80"
+      - "80:80"
