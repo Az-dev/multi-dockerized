@@ -13,18 +13,18 @@ script:
 
 # after successful test ... building production images and push it to docker-hub 
 after_success:  
-  - docker build -t doc20az/multi-client ./client
-  - docker build -t doc20az/multi-nginx ./nginx
-  - docker build -t doc20az/multi-server ./server
-  - docker build -t doc20az/multi-worker ./worker
+  - docker build -t doc20az/multi-client:latest ./client
+  - docker build -t doc20az/multi-nginx:latest ./nginx
+  - docker build -t doc20az/multi-server:latest ./server
+  - docker build -t doc20az/multi-worker:latest ./worker
   # in order to push your images to docker hub ... you have to login 
   # to yr account throw docker-cli
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
   #push the images to docker hub
-  - docker push doc20az/multi-client
-  - docker push doc20az/multi-nginx
-  - docker push doc20az/multi-server
-  - docker push doc20az/multi-worker
+  - docker push doc20az/multi-client:latest
+  - docker push doc20az/multi-nginx:latest
+  - docker push doc20az/multi-server:latest
+  - docker push doc20az/multi-worker:latest
 
 deploy:
   provider: elasticbeanstalk
