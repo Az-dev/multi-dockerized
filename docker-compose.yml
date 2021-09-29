@@ -23,9 +23,9 @@ services:
     environment: 
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
-  nginx_proxy:
+  nginxproxy:
     image: "doc20az/multi-nginx:latest"
     mem_limit: 128m
-    hostname: nginx_proxy
+    hostname: nginxproxy
     ports:
       - "8090:80"
